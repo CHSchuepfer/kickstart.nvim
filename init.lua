@@ -264,7 +264,11 @@ require('lazy').setup({
       },
     },
   },
-
+  {
+    'ThePrimeagen/harpoon',
+    branch = 'harpoon2',
+    dependencies = { 'nvim-lua/plenary.nvim' },
+  },
   -- NOTE: Plugins can also be configured to run Lua code when they are loaded.
   --
   -- This is often very useful to both group configuration, as well as handle
@@ -279,7 +283,6 @@ require('lazy').setup({
   -- Then, because we use the `config` key, the configuration only runs
   -- after the plugin has been loaded:
   --  config = function() ... end
-
   { -- Useful plugin to show you pending keybinds.
     'folke/which-key.nvim',
     event = 'VimEnter', -- Sets the loading event to 'VimEnter'
@@ -395,7 +398,54 @@ require('lazy').setup({
           previewer = false,
         })
       end, { desc = '[/] Fuzzily search in current buffer' })
+      local harpoon = require 'harpoon'
 
+      -- REQUIRED
+      harpoon:setup()
+      -- REQUIRED
+
+      vim.keymap.set('n', '<leader>a', function()
+        harpoon:list():add()
+      end)
+      vim.keymap.set('n', '<leader>l', function()
+        harpoon.ui:toggle_quick_menu(harpoon:list())
+      end)
+
+      vim.keymap.set('n', '<leader>1', function()
+        harpoon:list():select(1)
+      end, { desc = 'Jump to File index 1' })
+      vim.keymap.set('n', '<leader>2', function()
+        harpoon:list():select(2)
+      end, { desc = 'Jump to File index 2' })
+      vim.keymap.set('n', '<leader>3', function()
+        harpoon:list():select(3)
+      end, { desc = 'Jump to File index 3' })
+      vim.keymap.set('n', '<leader>4', function()
+        harpoon:list():select(4)
+      end, { desc = 'Jump to File index 4' })
+
+      vim.keymap.set('n', '<leader>d1', function()
+        harpoon:list():remove_at(1)
+      end)
+
+      vim.keymap.set('n', '<leader>d2', function()
+        harpoon:list():remove_at(2)
+      end)
+
+      vim.keymap.set('n', '<leader>d3', function()
+        harpoon:list():remove_at(3)
+      end)
+
+      vim.keymap.set('n', '<leader>d4', function()
+        harpoon:list():remove_at(4)
+      end)
+      -- Toggle previous & next buffers stored within Harpoon list
+      vim.keymap.set('n', '<leader>p', function()
+        harpoon:list():prev()
+      end)
+      vim.keymap.set('n', '<leader>n', function()
+        harpoon:list():next()
+      end)
       -- It's also possible to pass additional configuration options.
       --  See `:help telescope.builtin.live_grep()` for information about particular keys
       vim.keymap.set('n', '<leader>s/', function()
