@@ -414,10 +414,6 @@ require('lazy').setup({
             '--no-ignore',
             '--hidden',
             '--files',
-            '-g',
-            '!**/node_modules/*',
-            '-g',
-            '!**/.git/*',
           },
         }
       end
