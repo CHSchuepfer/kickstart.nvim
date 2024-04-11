@@ -196,7 +196,7 @@ vim.keymap.set('n', '<C-l>', '<C-w><C-l>', { desc = 'Move focus to the right win
 vim.keymap.set('n', '<C-j>', '<C-w><C-j>', { desc = 'Move focus to the lower window' })
 vim.keymap.set('n', '<C-k>', '<C-w><C-k>', { desc = 'Move focus to the upper window' })
 
-vim.api.nvim_set_keymap('n', '<M-h>', ':suspend<CR>', { noremap = true, silent = true })
+vim.api.nvim_set_keymap('n', '<C-h>', ':suspend<CR>', { noremap = true, silent = true })
 vim.api.nvim_set_keymap('n', '<leader>t', ':terminal<CR>', { noremap = true, silent = true })
 -- vim.api.nvim_set_keymap('n', '<leader>ff', ':lua require("telescope.builtin").find_files({ignore = { ".git" }})<CR>', { noremap = true, silent = true })
 vim.api.nvim_set_keymap('n', '<leader>ff', ':lua require("telescope.builtin").find_files({ hidden = true})<CR>', { noremap = true, silent = true })
@@ -383,16 +383,18 @@ require('lazy').setup({
         -- You can put your default mappings / updates / etc. in here
         --  All the info you're looking for is in `:help telescope.setup()`
         --
-        -- defaults = {
-        --   mappings = {
-        --     i = { ['<c-enter>'] = 'to_fuzzy_refine' },
-        --   },
-        -- },
         -- pickers = {}
+        pickers = {
+          find_files = {},
+        },
         extensions = {
           ['ui-select'] = {
             require('telescope.themes').get_dropdown(),
           },
+        },
+        file_browser = {
+          hidden = { file_browser = true, folder_browser = true },
+          prompt_path = true,
         },
       }
       -- Enable Telescope extensions if they are installed
@@ -404,6 +406,22 @@ require('lazy').setup({
       vim.keymap.set('n', '<leader>sh', builtin.help_tags, { desc = '[S]earch [H]elp' })
       vim.keymap.set('n', '<leader>sk', builtin.keymaps, { desc = '[S]earch [K]eymaps' })
       vim.keymap.set('n', '<leader>sf', builtin.find_files, { desc = '[S]earch [F]iles' })
+      -- New function with custom settings
+      local function custom_find_files()
+        builtin.find_files {
+          find_command = {
+            'rg',
+            '--no-ignore',
+            '--hidden',
+            '--files',
+            '-g',
+            '!**/node_modules/*',
+            '-g',
+            '!**/.git/*',
+          },
+        }
+      end
+      vim.keymap.set('n', '<leader>saf', custom_find_files, { desc = '[S]earch [A]ll [F]iles' })
       vim.keymap.set('n', '<leader>ss', builtin.builtin, { desc = '[S]earch [S]elect Telescope' })
       vim.keymap.set('n', '<leader>sw', builtin.grep_string, { desc = '[S]earch current [W]ord' })
       vim.keymap.set('n', '<leader>sg', builtin.live_grep, { desc = '[S]earch by [G]rep' })
