@@ -171,6 +171,7 @@ vim.keymap.set('n', '<leader>e', vim.diagnostic.open_float, { desc = 'Show diagn
 vim.keymap.set('n', '<leader>q', vim.diagnostic.setloclist, { desc = 'Open diagnostic [Q]uickfix list' })
 vim.keymap.set('n', 'qq', ':q!')
 vim.keymap.set('n', 'wq', ':wq!')
+vim.keymap.set('n', 'ww', ':w<CR>')
 vim.api.nvim_set_keymap('v', '<F2>', 'gu', { noremap = true })
 vim.api.nvim_set_keymap('v', '<F3>', 'gU', { noremap = true })
 -- Exit terminal mode in the builtin terminal with a shortcut that is a bit easier
